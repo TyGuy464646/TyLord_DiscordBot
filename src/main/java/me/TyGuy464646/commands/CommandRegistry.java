@@ -1,6 +1,7 @@
 package me.TyGuy464646.commands;
 
 import me.TyGuy464646.TyLord;
+import me.TyGuy464646.commands.utility.EmbedCommand;
 import me.TyGuy464646.commands.utility.PingCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
@@ -49,7 +50,8 @@ public class CommandRegistry extends ListenerAdapter {
     public CommandRegistry(TyLord bot) {
         mapCommand(
                 // Utility commands
-                new PingCommand(bot)
+                new PingCommand(bot),
+                new EmbedCommand(bot)
         );
     }
 
