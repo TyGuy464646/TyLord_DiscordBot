@@ -3,7 +3,6 @@ package me.TyGuy464646;
 import io.github.cdimascio.dotenv.Dotenv;
 import me.TyGuy464646.commands.CommandRegistry;
 import net.dv8tion.jda.api.OnlineStatus;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
@@ -23,6 +22,7 @@ public class TyLord {
 
     /**
      * Builds bot shards and registers commands and modules.
+     *
      * @throws LoginException throws if bot token is invalid
      */
     public TyLord() throws LoginException {

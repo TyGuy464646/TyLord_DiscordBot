@@ -122,27 +122,20 @@ public class CommandRegistry extends ListenerAdapter {
      */
     @Override
     public void onCommandAutoCompleteInteraction(@NotNull CommandAutoCompleteInteractionEvent event) {
-        if (event.getName().equals("embed") && event.getSubcommandName().equals("remove")) {
-            LOGGER.info("Doing an auto complete interaction event!");
-            OptionMapping message_url = event.getOption("message_url");
-
-            String[] messageParsed = message_url.getAsString().split("/");
-            try {
-                long guildID = Long.parseLong(messageParsed[4]);
-                long channelID = Long.parseLong(messageParsed[5]);
-                long messageID = Long.parseLong(messageParsed[6]);
-
-                event.getGuild().getTextChannelById(channelID).retrieveMessageById(messageID).queue(message -> {
-                    int numEmbeds = message.getEmbeds().size();
-                    List<Choice> choices = new ArrayList<>();
-                    for (int i = 0; i < numEmbeds; i++) {
-                        choices.add(new Choice("Embed " + String.valueOf(i + 1), i));
-                    }
-                    event.replyChoices(choices).queue();
-                });
-            } catch (ArrayIndexOutOfBoundsException e) {
-                throw new RuntimeException(e);
+        // Get command by name
+        Command cmd = commandsMap.get(event.getName());
+        if (cmd != null) {
+            // Check for required bot permissions
+            Role botRole = event.getGuild().getBotRole();
+            if (cmd.botPermission != null) {
+                if (!botRole.hasPermission(cmd.botPermission) && !botRole.hasPermission(Permission.ADMINISTRATOR)) {
+                    return;
+                }
             }
+
+            // Run command
+            cmd.autoCompleteExecute(event);
+            LOGGER.info("{} command is running autocomplete.", cmd.name);
         }
     }
 
@@ -155,9 +148,7 @@ public class CommandRegistry extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         // Register slash command
-        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {
-        }, fail -> {
-        });
+        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {}, fail -> {});
         LOGGER.info("Guild commands have been updated.");
     }
 }

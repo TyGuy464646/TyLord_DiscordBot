@@ -5,6 +5,7 @@ import me.TyGuy464646.commands.Category;
 import me.TyGuy464646.commands.Command;
 import me.TyGuy464646.util.embeds.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class PingCommand extends Command {
@@ -28,5 +29,9 @@ public class PingCommand extends Command {
             embed.setColor(EmbedColor.DEFAULT.color);
             m.editMessageEmbeds(embed.build()).override(true).queue();
         });
+    }
+
+    public void autoCompleteExecute(CommandAutoCompleteInteractionEvent event) {
+
     }
 }

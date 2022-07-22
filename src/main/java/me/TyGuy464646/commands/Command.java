@@ -2,6 +2,7 @@ package me.TyGuy464646.commands;
 
 import me.TyGuy464646.TyLord;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -32,4 +33,5 @@ public abstract class Command {
     }
 
     public abstract void execute(SlashCommandInteractionEvent event);
+    public abstract void autoCompleteExecute(CommandAutoCompleteInteractionEvent event);
 }

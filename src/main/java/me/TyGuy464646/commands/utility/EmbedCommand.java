@@ -10,8 +10,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
@@ -146,6 +148,30 @@ public class EmbedCommand extends Command {
             default -> {
                 event.getHook().sendMessageEmbeds(EmbedUtils.createError("This command doesn't exist.")).queue();
                 throw new IllegalStateException("Unexpected value: " + event.getSubcommandName());
+            }
+        }
+    }
+
+    public void autoCompleteExecute(CommandAutoCompleteInteractionEvent event) {
+        if (event.getName().equals("embed") && event.getSubcommandName().equals("remove")) {
+            OptionMapping message_url = event.getOption("message_url");
+
+            String[] messageParsed = message_url.getAsString().split("/");
+            try {
+                long guildID = Long.parseLong(messageParsed[4]);
+                long channelID = Long.parseLong(messageParsed[5]);
+                long messageID = Long.parseLong(messageParsed[6]);
+
+                event.getGuild().getTextChannelById(channelID).retrieveMessageById(messageID).queue(message -> {
+                    int numEmbeds = message.getEmbeds().size();
+                    List<Choice> choices = new ArrayList<>();
+                    for (int i = 0; i < numEmbeds; i++) {
+                        choices.add(new Choice("Embed " + String.valueOf(i + 1), i));
+                    }
+                    event.replyChoices(choices).queue();
+                });
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new RuntimeException(e);
             }
         }
     }
