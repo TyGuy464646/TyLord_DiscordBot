@@ -111,7 +111,7 @@ To get a local copy of TyLord up and running, follow these simple steps.
 
 Below are the necessary steps needed to run this project.
 1. Clone the repo:
-```aidl
+```
 git clone https://github.com/TyGuy464646/TyLord_DiscordBot.git
 ```
 2. Create a `.env` file in the root project folder and populate it with all the variables
@@ -140,7 +140,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the [MIT License](https://github.com/TyGuy464646/TyLord_DiscordBot/blob/master/LICENSE). See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -175,15 +175,15 @@ Below are some resources that have been instrumental in making this project a re
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/TyGuy464646/TyLord_DiscordBot.svg?style=for-the-badge
 [contributors-url]: https://github.com/TyGuy464646/TyLord_DiscordBot/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/TyGuy464646/TyLord_DiscordBot.svg?style=for-the-badge
 [forks-url]: https://github.com/TyGuy464646/TyLord_DiscordBot/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/TyGuy464646/TyLord_DiscordBot.svg?style=for-the-badge
 [stars-url]: https://github.com/TyGuy464646/TyLord_DiscordBot/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/TyGuy464646/TyLord_DiscordBot.svg?style=for-the-badge
 [issues-url]: https://github.com/TyGuy464646/TyLord_DiscordBot/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[license-shield]: https://img.shields.io/github/license/TyGuy464646/TyLord_DiscordBot.svg?style=for-the-badge
+[license-url]: https://github.com/TyGuy464646/TyLord_DiscordBot/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/othneildrew
