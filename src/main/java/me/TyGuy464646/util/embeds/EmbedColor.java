@@ -1,5 +1,10 @@
 package me.TyGuy464646.util.embeds;
 
+/**
+ * Utility enum storing color codes and helpful methods.
+ *
+ * @author TyGuy464646
+ */
 public enum EmbedColor {
     DEFAULT(0x57a2ff),
     ERROR(0xdd5f53),

@@ -6,12 +6,15 @@ import me.TyGuy464646.commands.utility.PingCommand;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
+import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +48,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Adds commands to a global list and registers them as event listener.
+     *
      * @param bot An instance of TyLord.
      */
     public CommandRegistry(TyLord bot) {
@@ -57,9 +61,10 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Adds a {@link Command} to the static list and map.
+     *
      * @param cmds a spread list of {@link Command} objects
      */
-    private void mapCommand(Command ...cmds) {
+    private void mapCommand(Command... cmds) {
         for (Command cmd : cmds) {
             commandsMap.put(cmd.name, cmd);
             commands.add(cmd);
@@ -68,6 +73,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Creates a list of {@link CommandData} for all commands.
+     *
      * @return a list of {@link CommandData} to be used for registration.
      */
     public static List<CommandData> unpackCommandData() {
@@ -87,6 +93,7 @@ public class CommandRegistry extends ListenerAdapter {
 
     /**
      * Runs whenever a slash command is run in Discord.
+     *
      * @param event the event in which the slash command was ran.
      */
     @Override
@@ -110,14 +117,47 @@ public class CommandRegistry extends ListenerAdapter {
     }
 
     /**
+     * Runs whenever an isAutoComplete OptionData is called
+     * @param event the event in which the Auto Complete OptionData was called.
+     */
+    @Override
+    public void onCommandAutoCompleteInteraction(@NotNull CommandAutoCompleteInteractionEvent event) {
+        if (event.getName().equals("embed") && event.getSubcommandName().equals("remove")) {
+            LOGGER.info("Doing an auto complete interaction event!");
+            OptionMapping message_url = event.getOption("message_url");
+
+            String[] messageParsed = message_url.getAsString().split("/");
+            try {
+                long guildID = Long.parseLong(messageParsed[4]);
+                long channelID = Long.parseLong(messageParsed[5]);
+                long messageID = Long.parseLong(messageParsed[6]);
+
+                event.getGuild().getTextChannelById(channelID).retrieveMessageById(messageID).queue(message -> {
+                    int numEmbeds = message.getEmbeds().size();
+                    List<Choice> choices = new ArrayList<>();
+                    for (int i = 0; i < numEmbeds; i++) {
+                        choices.add(new Choice("Embed " + String.valueOf(i + 1), i));
+                    }
+                    event.replyChoices(choices).queue();
+                });
+            } catch (ArrayIndexOutOfBoundsException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
      * Registers slash commands as guild commands.
      * NOTE: May change to global commands on release.
+     *
      * @param event executes when a guild is ready.
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         // Register slash command
-        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {}, fail -> {});
+        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {
+        }, fail -> {
+        });
         LOGGER.info("Guild commands have been updated.");
     }
 }

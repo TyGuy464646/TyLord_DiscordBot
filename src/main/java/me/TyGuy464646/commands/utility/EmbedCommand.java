@@ -4,8 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import me.TyGuy464646.TyLord;
 import me.TyGuy464646.commands.Category;
 import me.TyGuy464646.commands.Command;
+import me.TyGuy464646.util.embeds.EmbedUtils;
 import me.TyGuy464646.util.embeds.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -14,7 +18,8 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 
 import java.awt.*;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmbedCommand extends Command {
 
@@ -23,10 +28,12 @@ public class EmbedCommand extends Command {
         this.name = "embed";
         this.description = "Create an embed";
         this.category = Category.UTILITY;
+        this.permission = Permission.MANAGE_SERVER;
 
         this.subCommands.add(new SubcommandData("create", "Create an embed")
                 .addOptions(
-                        new OptionData(OptionType.CHANNEL, "channel", "The channel where it will be sent to", true),
+                        new OptionData(OptionType.CHANNEL, "channel", "The channel where it will be sent to", true)
+                                .setChannelTypes(ChannelType.TEXT, ChannelType.NEWS),
                         new OptionData(OptionType.STRING, "raw_json", "Insert an embed json here. Generate here: discohook.org"),
                         new OptionData(OptionType.STRING, "title", "The title of your embed."),
                         new OptionData(OptionType.STRING, "color", "The color of your embed (hex code e.g. '#5865F2')."),
@@ -36,6 +43,11 @@ public class EmbedCommand extends Command {
                         new OptionData(OptionType.STRING, "thumbnail", "The thumbnail of your embed (image url)."),
                         new OptionData(OptionType.STRING, "image", "The (large) image of your embed (image url)"),
                         new OptionData(OptionType.STRING, "url", "The url the title links to (any url)")
+                ));
+        this.subCommands.add(new SubcommandData("remove", "Removes embeds")
+                .addOptions(
+                        new OptionData(OptionType.STRING, "message_url", "The url of the message you want to remove an embed from.", true),
+                        new OptionData(OptionType.INTEGER, "position", "The position of the embed you want to remove (leave blank for all - first embed is 1).", false, true)
                 ));
     }
 
@@ -49,12 +61,11 @@ public class EmbedCommand extends Command {
                 if (rawJson != null) {
                     try {
                         JsonParser.toEmbed(event, rawJson.getAsString(), channelOption.getAsMessageChannel());
-                        event.getHook().sendMessage("Embed successfully created.").queue();
+                        event.getHook().sendMessageEmbeds(EmbedUtils.createSuccess("Embed successfully created.")).queue();
                     } catch (JsonProcessingException e) {
                         throw new RuntimeException(e);
                     }
-                }
-                else {
+                } else {
                     EmbedBuilder embedBuilder = new EmbedBuilder();
 
                     // Title
@@ -98,6 +109,43 @@ public class EmbedCommand extends Command {
                     event.getGuild().getTextChannelById(channelOption.getAsLong()).sendMessageEmbeds(embedBuilder.build()).queue();
                     event.getHook().sendMessage("Embed successfully created.").queue();
                 }
+            }
+            case "remove" -> {
+                OptionMapping message_url = event.getOption("message_url");
+                OptionMapping position = event.getOption("position");
+                String[] messageParsed = message_url.getAsString().split("/");
+                try {
+                    long guildID = Long.parseLong(messageParsed[4]);
+                    long channelID = Long.parseLong(messageParsed[5]);
+                    long messageID = Long.parseLong(messageParsed[6]);
+
+                    if (guildID == event.getGuild().getIdLong()) {
+                        event.getGuild().getTextChannelById(channelID).retrieveMessageById(messageID).queue(message -> {
+                            String author = message.getAuthor().getAsTag();
+                            if (author.equals(event.getJDA().getSelfUser().getAsTag())) {
+                                if (position != null) {
+                                    List<MessageEmbed> newEmbed = new ArrayList<>();
+                                    newEmbed.addAll(message.getEmbeds());
+                                    newEmbed.remove(position.getAsInt());
+                                    message.editMessageEmbeds(newEmbed).queue();
+                                    event.getHook().sendMessageEmbeds(EmbedUtils.createSuccess("Embeds modified!")).queue();
+                                } else {
+                                    event.getGuild().getTextChannelById(channelID).deleteMessageById(messageID).queue();
+                                    event.getHook().sendMessageEmbeds(EmbedUtils.createSuccess("Embeds deleted!")).queue();
+                                }
+                            } else {
+                                event.getHook().sendMessageEmbeds(EmbedUtils.createError("That's not a message sent by me")).queue();
+                            }
+                        });
+                    } else
+                        event.getHook().sendMessageEmbeds(EmbedUtils.createError("The message you are trying to delete is not in this server.")).queue();
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            default -> {
+                event.getHook().sendMessageEmbeds(EmbedUtils.createError("This command doesn't exist.")).queue();
+                throw new IllegalStateException("Unexpected value: " + event.getSubcommandName());
             }
         }
     }
