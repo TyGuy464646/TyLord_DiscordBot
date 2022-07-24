@@ -2,6 +2,7 @@ package me.TyGuy464646;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import me.TyGuy464646.commands.CommandRegistry;
+import me.TyGuy464646.listeners.ButtonListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -19,6 +20,8 @@ public class TyLord {
 
     public final @NotNull Dotenv config;
     public final @NotNull ShardManager shardManager;
+
+    public final @NotNull ButtonListener buttonListener;
 
     /**
      * Builds bot shards and registers commands and modules.
@@ -38,6 +41,12 @@ public class TyLord {
                 GatewayIntent.GUILD_MESSAGE_REACTIONS);
         builder.addEventListeners(new CommandRegistry(this));
         shardManager = builder.build();
+
+        // Register Listeners
+        buttonListener = new ButtonListener();
+        shardManager.addEventListener(
+                buttonListener
+        );
     }
 
     public static void main(String[] args) {

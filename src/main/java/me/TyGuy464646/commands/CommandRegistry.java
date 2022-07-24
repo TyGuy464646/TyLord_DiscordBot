@@ -1,8 +1,8 @@
 package me.TyGuy464646.commands;
 
 import me.TyGuy464646.TyLord;
-import me.TyGuy464646.commands.utility.EmbedCommand;
-import me.TyGuy464646.commands.utility.PingCommand;
+import me.TyGuy464646.commands.staff.ClearCommand;
+import me.TyGuy464646.commands.utility.*;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -10,11 +10,9 @@ import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInterac
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
-import net.dv8tion.jda.api.interactions.commands.Command.Choice;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,9 +51,17 @@ public class CommandRegistry extends ListenerAdapter {
      */
     public CommandRegistry(TyLord bot) {
         mapCommand(
+                // Staff commands
+                new ClearCommand(bot),
+
                 // Utility commands
+                new AvatarCommand(bot),
+                new CoinflipCommand(bot),
+                new EmbedCommand(bot),
+                new HelpCommand(bot),
                 new PingCommand(bot),
-                new EmbedCommand(bot)
+                new RolesCommand(bot),
+                new RollCommand(bot)
         );
     }
 
@@ -86,7 +92,6 @@ public class CommandRegistry extends ListenerAdapter {
             if (!command.subCommands.isEmpty())
                 slashCommand.addSubcommands(command.subCommands);
             commandData.add(slashCommand);
-            LOGGER.info("{} command was successfully added.", command.name);
         }
         return commandData;
     }
@@ -112,12 +117,12 @@ public class CommandRegistry extends ListenerAdapter {
             }
             // Run command
             cmd.execute(event);
-            LOGGER.info("{} command was used.", cmd.name);
         }
     }
 
     /**
      * Runs whenever an isAutoComplete OptionData is called
+     *
      * @param event the event in which the Auto Complete OptionData was called.
      */
     @Override
@@ -135,7 +140,6 @@ public class CommandRegistry extends ListenerAdapter {
 
             // Run command
             cmd.autoCompleteExecute(event);
-            LOGGER.info("{} command is running autocomplete.", cmd.name);
         }
     }
 
@@ -148,7 +152,9 @@ public class CommandRegistry extends ListenerAdapter {
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
         // Register slash command
-        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {}, fail -> {});
+        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {
+        }, fail -> {
+        });
         LOGGER.info("Guild commands have been updated.");
     }
 }

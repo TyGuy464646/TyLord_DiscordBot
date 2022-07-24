@@ -32,7 +32,7 @@ public class EmbedCommand extends Command {
         this.category = Category.UTILITY;
         this.permission = Permission.MANAGE_SERVER;
 
-        this.subCommands.add(new SubcommandData("create", "Create an embed")
+        this.subCommands.add(new SubcommandData("create", "Create an embed.")
                 .addOptions(
                         new OptionData(OptionType.CHANNEL, "channel", "The channel where it will be sent to", true)
                                 .setChannelTypes(ChannelType.TEXT, ChannelType.NEWS),
@@ -46,7 +46,7 @@ public class EmbedCommand extends Command {
                         new OptionData(OptionType.STRING, "image", "The (large) image of your embed (image url)"),
                         new OptionData(OptionType.STRING, "url", "The url the title links to (any url)")
                 ));
-        this.subCommands.add(new SubcommandData("remove", "Removes embeds")
+        this.subCommands.add(new SubcommandData("remove", "Removes embeds from a message.")
                 .addOptions(
                         new OptionData(OptionType.STRING, "message_url", "The url of the message you want to remove an embed from.", true),
                         new OptionData(OptionType.INTEGER, "position", "The position of the embed you want to remove (leave blank for all - first embed is 1).", false, true)
