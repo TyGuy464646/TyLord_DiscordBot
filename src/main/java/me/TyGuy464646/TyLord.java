@@ -2,6 +2,8 @@ package me.TyGuy464646;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import me.TyGuy464646.commands.CommandRegistry;
+import me.TyGuy464646.data.Database;
+import me.TyGuy464646.data.GuildData;
 import me.TyGuy464646.listeners.ButtonListener;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -13,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.security.auth.login.LoginException;
-import java.sql.SQLException;
 
 public class TyLord {
 
@@ -22,6 +23,8 @@ public class TyLord {
 	public final @NotNull Dotenv config;
 	public final @NotNull ShardManager shardManager;
 
+	public final @NotNull Database database;
+
 	public final @NotNull ButtonListener buttonListener;
 
 	/**
@@ -29,9 +32,10 @@ public class TyLord {
 	 *
 	 * @throws LoginException throws if bot token is invalid
 	 */
-	public TyLord() throws LoginException, SQLException {
+	public TyLord() throws LoginException {
 		// Setup Database
 		config = Dotenv.configure().ignoreIfMissing().load();
+		database = new Database(config.get("DATABASE"));
 
 		// Build JDA shards
 		DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(config.get("TOKEN"));
@@ -42,6 +46,7 @@ public class TyLord {
 				GatewayIntent.GUILD_MESSAGE_REACTIONS);
 		builder.addEventListeners(new CommandRegistry(this));
 		shardManager = builder.build();
+		GuildData.init(this);
 
 		// Register Listeners
 		buttonListener = new ButtonListener();
@@ -50,7 +55,7 @@ public class TyLord {
 		);
 	}
 
-	public static void main(String[] args) throws LoginException, SQLException {
+	public static void main(String[] args) throws LoginException {
 		new TyLord();
 	}
 }

@@ -1,15 +1,15 @@
 package me.TyGuy464646.commands;
 
 public enum Category {
-	//    AUTOMATION(":gear:", "Automation"),
+//	AUTOMATION(":gear:", "Automation"),
 //    CASINO(":game_die:", "Casino"),
 //    ECONOMY(":moneybag:", "Economy"),
-//    FUN(":smile:", "Fun"),
+    FUN(":smile:", "Fun"),
 //    GREETINGS(":wave:", "Greetings"),
 //    LEVELS(":chart_with_upwards_trend:", "Levels"),
 //    MUSIC(":musical_note:", "Music"),
 	STAFF(":computer:", "Staff"),
-	//    STARBOARD(":star:", "Starboard"),
+//	STARBOARD(":star:", "Starboard"),
 //    SUGGESTIONS(":thought_balloon:", "Suggestions"),
 	UTILITY(":tools:", "Utility");
 //    PETS(":dog:", "Pets");

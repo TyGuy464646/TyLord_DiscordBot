@@ -1,8 +1,11 @@
 package me.TyGuy464646.commands;
 
 import me.TyGuy464646.TyLord;
+import me.TyGuy464646.commands.fun.CoinflipCommand;
+import me.TyGuy464646.commands.fun.RollCommand;
 import me.TyGuy464646.commands.staff.ClearCommand;
 import me.TyGuy464646.commands.utility.*;
+import me.TyGuy464646.data.GuildData;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -48,17 +51,19 @@ public class CommandRegistry extends ListenerAdapter {
 	 */
 	public CommandRegistry(TyLord bot) {
 		mapCommand(
+				// Fun commands
+				new CoinflipCommand(bot),
+				new RollCommand(bot),
+
 				// Staff commands
 				new ClearCommand(bot),
 
 				// Utility commands
 				new AvatarCommand(bot),
-				new CoinflipCommand(bot),
 				new EmbedCommand(bot),
-				new HelpCommand(bot),
 				new PingCommand(bot),
 				new RolesCommand(bot),
-				new RollCommand(bot)
+				new HelpCommand(bot) // The 'help' command MUST come last!
 		);
 	}
 
@@ -148,6 +153,9 @@ public class CommandRegistry extends ListenerAdapter {
 	 */
 	@Override
 	public void onGuildReady(@NotNull GuildReadyEvent event) {
+		// Get GuildData from database
+		GuildData.get(event.getGuild());
+
 		// Register slash command
 		event.getGuild().updateCommands().addCommands(unpackCommandData()).queue(succ -> {
 		}, fail -> {

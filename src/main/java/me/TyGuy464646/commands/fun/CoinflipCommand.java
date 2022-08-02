@@ -1,4 +1,4 @@
-package me.TyGuy464646.commands.utility;
+package me.TyGuy464646.commands.fun;
 
 import me.TyGuy464646.TyLord;
 import me.TyGuy464646.commands.Category;
@@ -7,34 +7,30 @@ import me.TyGuy464646.util.embeds.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.Random;
 
-public class RollCommand extends Command {
+public class CoinflipCommand extends Command {
 
 	private final Random random;
 
-	public RollCommand(TyLord bot) {
+	public CoinflipCommand(TyLord bot) {
 		super(bot);
-		this.name = "roll";
-		this.description = "Roll a dice.";
-		this.category = Category.UTILITY;
-		this.args.add(new OptionData(OptionType.INTEGER, "dice", "The number of sides on the dice").setMinValue(1).setMaxValue(1000000));
+		this.name = "coinflip";
+		this.description = "Flip a coin.";
+		this.category = Category.FUN;
 		this.random = new Random();
 	}
 
 	public void execute(SlashCommandInteractionEvent event) {
-		OptionMapping option = event.getOption("dice");
-		int bound = option != null ? option.getAsInt() : 6;
-		if (bound == 0) bound = 1;
+		int bound = 2;
 		int result = random.nextInt(bound) + 1;
+
+		String stringResult = result == 1 ? "Heads" : "Tails";
 
 		EmbedBuilder embedBuilder = new EmbedBuilder()
 				.setColor(EmbedColor.DEFAULT.color)
-				.setDescription(":game_die: You rolled a " + bound + "-sided dice and got: **" + result + "**");
+				.setDescription(":coin: You flipped a coin and got **" + stringResult + "**");
 		event.replyEmbeds(embedBuilder.build()).queue();
 	}
 
