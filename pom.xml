@@ -20,6 +20,19 @@
             <version>5.0.0-alpha.13</version>
         </dependency>
 
+        <!-- DATABASE -->
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.36.0.3</version>
+        </dependency>
+
+
         <!-- LOGGER -->
         <dependency>
             <groupId>ch.qos.logback</groupId>

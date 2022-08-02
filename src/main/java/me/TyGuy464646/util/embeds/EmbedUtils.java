@@ -11,45 +11,48 @@ import org.jetbrains.annotations.NotNull;
  */
 public class EmbedUtils {
 
-    /**
-     * Emojis
-     */
-    public static final String GREEN_TICK = ":white_check_mark:";
-    public static final String RED_X = ":x:";
+	/**
+	 * Emojis
+	 */
+	public static final String GREEN_TICK = ":white_check_mark:";
+	public static final String RED_X = ":x:";
 
-    /**
-     * Quickly creates a simple error embed.
-     * @param errorMessage message to be displayed.
-     * @return completed error {@link MessageEmbed}.
-     */
-    public static @NotNull MessageEmbed createError(String errorMessage) {
-        return new EmbedBuilder()
-                .setColor(EmbedColor.ERROR.color)
-                .setDescription(RED_X + " **Error** | `" + errorMessage + "`")
-                .build();
-    }
+	/**
+	 * Quickly creates a simple error embed.
+	 *
+	 * @param errorMessage message to be displayed.
+	 * @return completed error {@link MessageEmbed}.
+	 */
+	public static @NotNull MessageEmbed createError(String errorMessage) {
+		return new EmbedBuilder()
+				.setColor(EmbedColor.ERROR.color)
+				.setDescription(RED_X + " **Error** | `" + errorMessage + "`")
+				.build();
+	}
 
-    /**
-     * Quickly creates a simple default embed.
-     * @param message message to be displayed.
-     * @return completed default {@link MessageEmbed}.
-     */
-    public static @NotNull MessageEmbed createDefault(String message) {
-        return new EmbedBuilder()
-                .setColor(EmbedColor.DEFAULT.color)
-                .setDescription("`" + message + "`")
-                .build();
-    }
+	/**
+	 * Quickly creates a simple default embed.
+	 *
+	 * @param message message to be displayed.
+	 * @return completed default {@link MessageEmbed}.
+	 */
+	public static @NotNull MessageEmbed createDefault(String message) {
+		return new EmbedBuilder()
+				.setColor(EmbedColor.DEFAULT.color)
+				.setDescription("`" + message + "`")
+				.build();
+	}
 
-    /**
-     * Quickly creates a simple success embed.
-     * @param message message to be displayed
-     * @return completed success {@link MessageEmbed}
-     */
-    public static @NotNull MessageEmbed createSuccess(String message) {
-        return new EmbedBuilder()
-                .setColor(EmbedColor.SUCCESS.color)
-                .setDescription(GREEN_TICK + " **Success** | `" + message + "`")
-                .build();
-    }
+	/**
+	 * Quickly creates a simple success embed.
+	 *
+	 * @param message message to be displayed
+	 * @return completed success {@link MessageEmbed}
+	 */
+	public static @NotNull MessageEmbed createSuccess(String message) {
+		return new EmbedBuilder()
+				.setColor(EmbedColor.SUCCESS.color)
+				.setDescription(GREEN_TICK + " **Success** | `" + message + "`")
+				.build();
+	}
 }

@@ -17,21 +17,22 @@ import java.util.List;
  */
 public abstract class Command {
 
-    public TyLord bot;
-    public String name;
-    public String description;
-    public Category category;
-    public List<OptionData> args;
-    public List<SubcommandData> subCommands;
-    public Permission permission; // Permission user needs to execute this command
-    public Permission botPermission; // Permission bot needs to execute this command
+	public TyLord bot;
+	public String name;
+	public String description;
+	public Category category;
+	public List<OptionData> args;
+	public List<SubcommandData> subCommands;
+	public Permission permission; // Permission user needs to execute this command
+	public Permission botPermission; // Permission bot needs to execute this command
 
-    public Command(TyLord bot) {
-        this.bot = bot;
-        this.args = new ArrayList<>();
-        this.subCommands = new ArrayList<>();
-    }
+	public Command(TyLord bot) {
+		this.bot = bot;
+		this.args = new ArrayList<>();
+		this.subCommands = new ArrayList<>();
+	}
 
-    public abstract void execute(SlashCommandInteractionEvent event);
-    public abstract void autoCompleteExecute(CommandAutoCompleteInteractionEvent event);
+	public abstract void execute(SlashCommandInteractionEvent event);
+
+	public abstract void autoCompleteExecute(CommandAutoCompleteInteractionEvent event);
 }
