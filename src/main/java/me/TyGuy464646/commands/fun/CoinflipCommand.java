@@ -10,6 +10,10 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import java.util.Random;
 
+/**
+ * {@link Command} that flips a coin.
+ * @author TyGuy464646
+ */
 public class CoinflipCommand extends Command {
 
 	private final Random random;

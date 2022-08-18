@@ -24,6 +24,11 @@ import java.util.List;
 
 import static me.TyGuy464646.commands.CommandRegistry.commands;
 
+/**
+ * {@link Command} that displays a list of all available commands.
+ *
+ * @author TyGuy464646
+ */
 public class HelpCommand extends Command {
 
 	private static final int COMMANDS_PER_PAGE = 6;

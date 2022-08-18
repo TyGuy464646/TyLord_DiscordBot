@@ -8,6 +8,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+/**
+ * {@link Command} that displays bot latency.
+ *
+ * @author TyGuy464646
+ */
 public class PingCommand extends Command {
 
 	public PingCommand(TyLord bot) {

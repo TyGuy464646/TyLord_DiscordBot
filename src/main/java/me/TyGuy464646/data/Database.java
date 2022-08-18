@@ -8,6 +8,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Indexes;
 import me.TyGuy464646.data.cache.Config;
+import me.TyGuy464646.data.cache.Suggestion;
+import me.TyGuy464646.data.cache.moderation.Moderation;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.conversions.Bson;
@@ -25,6 +27,8 @@ public class Database {
 	/**
 	 * Collections
 	 */
+	public @NotNull MongoCollection<Suggestion> suggestions;
+	public @NotNull MongoCollection<Moderation> moderation;
 	public @NotNull MongoCollection<Config> config;
 
 	/**
@@ -43,9 +47,13 @@ public class Database {
 		MongoDatabase database = mongoClient.getDatabase("Tylord");
 
 		// Initialize collections if they don't exist.
+		suggestions = database.getCollection("suggestions", Suggestion.class);
+		moderation = database.getCollection("moderation", Moderation.class);
 		config = database.getCollection("config", Config.class);
 
 		Bson guildIndex = Indexes.descending("guild");
+		suggestions.createIndex(guildIndex);
+		moderation.createIndex(guildIndex);
 		config.createIndex(guildIndex);
 	}
 }

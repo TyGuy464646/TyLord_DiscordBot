@@ -2,6 +2,8 @@ package me.TyGuy464646.data;
 
 import me.TyGuy464646.TyLord;
 import me.TyGuy464646.handlers.ConfigHandler;
+import me.TyGuy464646.handlers.ModerationHandler;
+import me.TyGuy464646.handlers.SuggestionHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,6 +31,8 @@ public class GuildData {
 	/**
 	 * Local memory caches.
 	 */
+	public SuggestionHandler suggestionHandler;
+	public ModerationHandler moderationHandler;
 	public ConfigHandler configHandler;
 
 	/**
@@ -37,6 +41,8 @@ public class GuildData {
 	 */
 	private GuildData(Guild guild) {
 		// Setup caches
+		suggestionHandler = new SuggestionHandler(bot, guild);
+		moderationHandler = new ModerationHandler(bot, guild);
 		configHandler = new ConfigHandler(bot, guild);
 	}
 

@@ -23,6 +23,11 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * {@link Command} that creates message embeds.
+ *
+ * @author TyGuy464646
+ */
 public class EmbedCommand extends Command {
 
 	public EmbedCommand(TyLord bot) {

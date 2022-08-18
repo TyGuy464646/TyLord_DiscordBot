@@ -3,7 +3,10 @@ package me.TyGuy464646.commands;
 import me.TyGuy464646.TyLord;
 import me.TyGuy464646.commands.fun.CoinflipCommand;
 import me.TyGuy464646.commands.fun.RollCommand;
-import me.TyGuy464646.commands.staff.ClearCommand;
+import me.TyGuy464646.commands.staff.*;
+import me.TyGuy464646.commands.suggestions.ResponseCommand;
+import me.TyGuy464646.commands.suggestions.SuggestCommand;
+import me.TyGuy464646.commands.suggestions.SuggestionsCommand;
 import me.TyGuy464646.commands.utility.*;
 import me.TyGuy464646.data.GuildData;
 import net.dv8tion.jda.api.Permission;
@@ -56,7 +59,26 @@ public class CommandRegistry extends ListenerAdapter {
 				new RollCommand(bot),
 
 				// Staff commands
+				new BanCommand(bot),
 				new ClearCommand(bot),
+				new KickCommand(bot),
+				new LockCommand(bot),
+				new MuteCommand(bot),
+				new MuteRoleCommand(bot),
+				new RemoveWarnCommand(bot),
+				new RoleCommand(bot),
+				new SetNickCommand(bot),
+				new SlowmodeCommand(bot),
+				new UnbanCommand(bot),
+				new UnlockCommand(bot),
+				new UnMuteCommand(bot),
+				new WarnCommand(bot),
+				new WarningsCommand(bot),
+
+				// Suggestion commands
+				new ResponseCommand(bot),
+				new SuggestCommand(bot),
+				new SuggestionsCommand(bot),
 
 				// Utility commands
 				new AvatarCommand(bot),

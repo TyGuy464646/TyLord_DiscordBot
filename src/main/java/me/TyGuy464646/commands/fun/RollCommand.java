@@ -13,6 +13,10 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.Random;
 
+/**
+ * {@link Command} that rolls a die.
+ * @author TyGuy464646
+ */
 public class RollCommand extends Command {
 
 	private final Random random;

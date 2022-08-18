@@ -12,6 +12,11 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+/**
+ * {@link Command} that displays a users avatar picture.
+ *
+ * @author TyGuy464646
+ */
 public class AvatarCommand extends Command {
 
 	public AvatarCommand(TyLord bot) {

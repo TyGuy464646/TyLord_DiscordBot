@@ -11,6 +11,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
+/**
+ * {@link Command} that purges a channel of a specified number of messages.
+ *
+ * @author TyGuy464646
+ */
 public class ClearCommand extends Command {
 
 	public ClearCommand(TyLord bot) {
@@ -27,7 +32,7 @@ public class ClearCommand extends Command {
 	public void execute(SlashCommandInteractionEvent event) {
 		event.deferReply().setEphemeral(true).queue();
 		int amount = event.getOption("amount").getAsInt();
-		event.getChannel().getHistory().retrievePast(Math.min(amount + 1, 100)).queue(messages -> {
+		event.getChannel().getHistory().retrievePast(Math.min(amount, 100)).queue(messages -> {
 			try {
 				// Delete messages and notify user
 				((TextChannel) event.getChannel()).deleteMessages(messages).queue(result -> {

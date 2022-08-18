@@ -1,5 +1,7 @@
 package me.TyGuy464646.listeners;
 
+import me.TyGuy464646.data.GuildData;
+import me.TyGuy464646.util.embeds.EmbedUtils;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
@@ -194,7 +196,22 @@ public class ButtonListener extends ListenerAdapter {
 				}
 			}
 		} else if (pressedArgs[0].equals("reset") && storedArgs[0].equals("reset")) {
-			// TODO: Reset guild cache
+			String systemName = pressedArgs[4];
+			if (pressedArgs[1].equals("yes")) {
+				event.deferEdit().queue();
+				GuildData data = GuildData.get(event.getGuild());
+				if (systemName.equalsIgnoreCase("suggestion")) data.suggestionHandler.reset();
+				/*
+				TODO GreetingHandler reset
+				TODO LevelingHandler reset
+				*/
+				MessageEmbed embed = EmbedUtils.createSuccess(systemName + " system was successfully reset!");
+				event.getHook().editOriginalComponents(new ArrayList<>()).setEmbeds(embed).queue();
+			} else if (pressedArgs[1].equals("no")) {
+				event.deferEdit().queue();
+				MessageEmbed embed = EmbedUtils.createError(systemName + " system was NOT reset!");
+				event.getHook().editOriginalComponents(new ArrayList<>()).setEmbeds(embed).queue();
+			}
 		}
 	}
 }

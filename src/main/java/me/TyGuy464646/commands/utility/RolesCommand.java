@@ -9,6 +9,11 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
+/**
+ * {@link Command} that displays server roles and member counts.
+ *
+ * @author TyGuy464646
+ */
 public class RolesCommand extends Command {
 
 	public RolesCommand(TyLord bot) {
